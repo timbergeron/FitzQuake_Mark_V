@@ -1,0 +1,476 @@
+================================================================================
+Revision 14: July 11, 2014
+
+Special thanks to Gunter who did some extensive testing and bug reporting in the
+thread at Func Msgboard.
+
+I want to point out the "scr_clock 1" will show level elapsed time all the time.
+
+The previous release or 2 were in many ways unacceptable to me, but I was
+severely time contrained and rushing did not seem to help release quality.
+
+Primary New Features:
+
+1)  Spike's BSP2 support is in here.  Something Wicked by Tronyn can now be run.
+2)  All white-screen HUD/skybox issues should be fixed with any video card.
+3)  jdhack's automatic impulse 12 for non-supporting mods (Requiem sv_imp12hack).
+4)  jdhack's automatic fish-fix count (Requiem sv_fishfix).
+5)  MP3 playback over intermission fix (svc_cdtrack wasn't stopping music).
+
+6)  Negke:  Made the Windows key enabled any time that mouse cursor is visible.
+	So if the console is up, the Windows keyboard key works.
+
+7)  screenshot command can take a name, i.e. "screenshot coagula".
+8)  Fixed the slight edge-lines showing around window.
+9)  -nosound or -nocdaudio will disable MP3 feature.
+10) host_sleep 1 will reduce CPU usage of dedicated server or client.
+
+11) On failure to find Quake data files at start in both the current directory
+    and the folder where Mark V exe is located, will open Explorer to that 
+    location for user convenience.
+    
+12) Written .dem and .sav are extension forced.  Can't do "record pak0.pak".
+13) If hosting a LAN coop game, pressing TAB will show your ip address in the 
+	scoreboard when pressing TAB.  Makes it convenient to tell other players 
+	what ip address to connect to.
+
+14) scr_crosshairscale 0 renders the crosshair as a dot, when using crosshair 1.
+15) Uses same history file name as Quakespasm now for convenience, although
+	Mark V saves more entries (64) at the moment.  Mark V also does not save
+	duplicate entries to history.txt.
+
+16) There is classic hardware gamma version included.
+
+Corrections / Bug-fixes / Etc.:
+
+a) Scoreboard names no longer bronzed in deathmatch scoreboard. 
+b) Mark V now works with QView.
+c) bolt.mdl added to r_noshadow_list list.
+d) sbar clock is now more clean in deathmatch scoreboard with 4 players.
+e) Fullbright maps in multiplayer display as fullbright.
+f) Improvements to pausing a game.
+g) Fixed pausing game as client when connected to unpausable server.
+h) Fixed talk macros glitch reported by Gunter.
+i) I have read about situations that can cause a FitzQuake based engine to run
+   out of file handles.  I audited the code and created a warning message
+   when a larger number of file handles are open.
+
+TODO: Gunter's bug report about Mark V hating missing skins, addressing the
+skin issue when toggling external textures and similar tool_texturepointer bug.
+      
+================================================================================
+Final Release: October 3, 2013 (Amended October 8, 2013)
+
+Weighing in at a meager 448k size, here is the last Mark V.  Apparently some
+Quakespasm code I integrated didn't like /O2 optimization for the Release
+build.  Fixed by changing to /O1.  Have not experienced the strange bug
+that Beta 1 gave me.
+
+Shound be solid.
+
+The Last Mark V.
+
+--- Baker
+
+Note: distrans reported a -heapsize bug.  Rats!  Fixed on October 8, 2013.
+
+
+Final Version: May 25, 2013 -- Beta 1
+
+There will be a touch-up release or 2 to fix any reported bugs.  Also I am not
+not entirely done with a couple of items:
+
+1) Multi-gamedir done the right way.
+2) The sky.  There is an implementation of r_mirroralpha in the engine
+   but I need to rework sky drawing and add static ents.  r_mirroralpha "works"
+   like looking at window02_1 in the start map easy hallway, but the sky code
+   in FitzQuake draws in a way that it won't z-fail.
+
+Changes
+----------------
+1.  Mild and very subtle stain maps.  r_stains 0 to disable. (FTE derived)
+2.  Single player scoreboard now shows skill level, clock and if playing demo
+    also displays % of demo remaining to play.
+3.  Skill level is recorded in demos in a way that is ignored by non-supporting
+    clients.
+4.  Brightness only affects window
+5.  sndspeed is now a cvar saved to config, 11025, 22050, 44100.
+6.  External .vis support.  No more vispatching maps.
+7.  Mouselook defaults on; is in menu.  Always run defaults on.
+8.  Kurok fog system for Sock's review to see if it fits his needs.
+9.  Texture reload actual reloads bsp textures from memory, not file.  Those
+    are stored away in texture_t* entries so why not.
+10 .New cvars: external_textures, external_lits
+11. Autocompletion of virtually everything in the console.  Map names, demo names,
+    even skybox names or key names.  Plus other ones.
+12. The engine can live toggle between external textures and the normal Quake
+    textures.  bind <key> "toggle external_textures".
+13. Texturepointer is back.  tool_texturepointer 1 to enable.  Press CTRL-C
+    and engine will copy texture you are pointing at to the clipboard and you
+    can then paste it into a graphics editor.  Or the reverse via CTRL-V.
+    I need to slightly touchup this more.
+14. Pak seek acceleration.  Pak files are marked with the kind of files they
+    contain so huge maps like, say, roman1 load a bit faster.
+15. Full client ProQuake NAT fix
+16. Fixed a demo rewind bug..
+17.  -basedir command line parameter now supports spaces in the path.
+18. luma textures fixed.
+19. Thanks to MH's advice, external model textures load at normal speed and I
+    was able to prune out gl_mesh.c and instead use glMatrixMode (GL_TEXTURE);
+    to scale, so this does not even require a power of 2 GL extension.
+20. Many other things I no longer remember mostly relating to bug fixed.
+21. MH's no clip doesn't touch triggers.
+22. Gamedir records to demos (including -quoth or what not).  If you play 
+    such a recorded demo, it will switch to the gamedir AND if you do not have
+    it, it will disconnect and tell you what you need to play the demo.
+23. Common sense Quakespasm touchups that I noticed.  Some of them are very
+    subtle and brilliant ideas like cfg_unbindall.
+
+Many thanks to Reckless and Spike.  Reckless gave me code in a discussion that
+allowed the removal of hardware gamma.  Spike explained a better way for the
+server to pass the client extra information that degrades gracefully.
+
+It is important to note that unseen on a code level, I absorbed a great deal 
+of their code upgrades --- sure this will not be noticed, but szo and company 
+had to have put a ton of time into that and I really, really thank them for it.
+
+-- Baker
+   
+Code Changes (you likely don't care about this)
+----------------
+1. Rewrote all video code.
+2. Rewrote all mouse input code.
+3. Absorbed as much of Quakespasm's ideas and code cleanups as I felt safe.
+4. Rewrote and streamlined dozens of parts of the code base.
+
+
+================================================================================
+Revision 9: April 2, 2013
+
+Changes
+----------------
+1. Coop convenience:  Mark V server will tell Mark V client to switch gamedir
+2. Coop demo crash fix.  A coop demo would try to write server-only stats, 
+   which was fine if you happened to the player running in listen mode.  But
+   if you were just a client connected and not the server = CRASH.
+   
+Thanks to Spike for telling me how to do #1 without creating another protocol
+and keeping full compatibility with existing clients.  I was going to create
+another protocol (like we need more of those).
+
+
+Revision 8: March 7, 2013
+
+Changes
+----------------
+
+1. Race against your ghost.  
+
+   Type "ghostdemo demo1" in the console and follow
+   John Romero around the map.  Ghost stops walking when he would pass out of
+   full view.  So the ghost stops at doors patiently.
+   
+2. tool_menu will expose a menu toggled by pressing the Windows key. 
+   
+3. Implemented Sock's community.lmp registered check that can be used instead
+   of pop.lmp with a mod to enable registered features.
+
+4. Sock wanted me to increase default memory to 64MB.  It already was.  So I
+   increased default memory to 128MB in the event it was meant that the default
+   didn't suffice for his current work.
+   
+5. Changed the sound distance back to the FitzQuake 0.85/GLQuake/WinQuake 
+   original instead of what some old school engine coders say was the DOS 
+   original sound distance.
+   
+6. Stripped out a few minor changes to fully revert lighting code to 0.85 base.
+   This temporarily removes the texture pointer tool and shadows on submodels.
+   The cause was a pre-calculation speed enhancement that doesn't directly
+   involve those features, but would be time consuming to adapt because it 
+   involves a number of loops and several functions and developing a test plan
+   is complicated as a result.
+   
+Note:  It is possible for ghosts to get stuck in certain environments due to
+the collision checking.  In the future, I hope to add "nudge" code to free a
+stuck ghost like Quake does as a server for stuck entities.  Not in this 
+release, only so much time available :(
+
+Revision 7: July 31, 2012
+
+New Features:
+----------------
+1) MP3 tracks support.  They go in quake\id1\music with names like track00.mp3
+2) Native Half-Life map support provided the textures are compiled into the BSP.
+3) Better compiler optimizations.  Size of .exe is a lot smaller, maybe faster.
+4) Light bleed through fix removed.  MH says it is inconsistent and he's right.
+5) gl_greyscale 1.  Type in the console and be absolutely unsurprised. ;-)
+
+The MP3 support is sort of a hybrid between looking at DirectQ (and in some
+cases outright borrowing) and thinking about what I want to do with ... erm 
+... the classic MP3 support method also written by MH.  I expanded on the idea
+of MP3 support: the playback volume is relative to your sound volume.  If you 
+press CTRL-M to mute the sound, the mp3 track sound is muted.  Like the DirectQ
+implementation, cd audio from a real CD still works (*should still work*  ... 
+I didn't actually test it, yet it wasn't really changed).
+
+Needless to say, I tried to make MP3 absolutely correct including giving a
+FitzQuake-like hint about the naming upon map load and actually went to the
+trouble of making sure the "cd on" and "cd off" commands are honored.
+
+I mostly did this to support playing Travail including distrans sound tracks
+in the same way that external texture loading supports Travail's higher
+resolution skins that at the same were meant for aguirRe's Enhanced GLQuake.
+
+Boring alert:
+
+Note on #3, the WGL extension check had to be removed otherwise the .exe would
+crash.  Replaced with a standard GL extensions check for "GL_WIN_swap_hint"
+to detect swap control (vid_vsync ability).  This extension is primarily found
+on Intel display adapters, with Nvidia and ATI video using the traditional
+standard extension WGL_EXT_swap_control.
+
+The native Half-Life map support is integrated into the texture manager as a
+natural format, not as some kind of hack job.  It supports alpha textures as
+well.  I wasn't going to do this, except I have some ideas of expanding the bsp
+format and adding this doesn't hurt anything and some non-traditional modders
+very much want this kind of feature (many of whom got into Quake modding via
+Playstation Portable Quake --- it you aren't aware of the influence and zeal
+of these guys and the number of them ... well, some of them are working on
+things like an open source version of Daikatana with seemingly Romero's
+passive support.  And they are using FitzQuake as a base.)
+
+[I feel this is too much text typed for what I consider a mild release. At
+the same time, the features added in are of exceptional high quality in their
+implementation.]
+
+
+Fitzquake Mark V:  Revision 6: July 22, 2012
+
+New features:
+----------------
+1)  Most solid demo rewind in any engine.  Press PGUP/PGDN (*) during a demo.
+2)  Colormapped deadbodies and colormapped everything else too.
+3)  Correct bits for increasing dynamic lights above 128.
+4)  Dynamic lights affect moved/rotating brush models correctly. (MH/RMQ)
+5)  Dynamic lights no longer bleed through walls (Quakesrc.org tutorial)
+    although I actually found the code in Qrack.
+6)  Restored exact FitzQuake 0.85 lighting code temporarily (Sock found
+    another issue).
+7)  Video restart shuts sound off before restoring.
+8)  Automatic wide-screen FOV correction.
+
+Note: Teleporters are not affected by r_wateralpha if the teleporter texture
+begins with "*tele".  This was in the original FitzQuake Mark V but I didn't
+document it.  The teleporter texture prefix can be set with r_texprefix_tele
+or eliminated by setting to "".
+
+(*) The startup demos sequence of Quake does not allow demo pause, fast
+forward/rewind and almost all keys bring up the menu.  These are initiated by
+"startdemos demo1 demo2 demo3" in quake.rc.
+
+Demos you play *yourself* such as typing "playdemo demo1" in the console do
+allow demo pause (pause key), demo rewind (holding PGDN), demo forward (PGUP)
+and keys do not bring up the menu.
+
+================================================================================
+
+Revision 5: July 17, 2012
+
+New Features:
+----------------
+1)  Game command supports extra parameters ("game warpspasm -quoth", etc.)
+2)  ALT-ENTER switches between fullscreen and windowed mode.
+3)  Major video capture improvements.
+4)  "timedemo" closes the console.
+5)  "folder" command highlights last file created (screenshot, video, demo, ..)
+6)  Video restart is vastly faster (from RemakeQuake engine or Quakespasm?)
+7)  Save games are instant (MH).
+8)  Rewired video restart to keep the current window.
+9)  CTRL-M mutes or unmutes sound.
+10) Fixed lighting bug reported by Sock.
+11) "envmap" command works correctly, writes TGA files.
+
+The Google VP80 codec is also known as WebM.  You can install this video codec
+from http://www.optimasc.com/products/vp8vfw/index.html
+
+Video Capture
+----------------
+12) Video capture uses best installed codec (order: vp80, xvid, divx, none)
+13) "capturedemo" shows progress % in window caption
+14) capturedemo aborts demo playback if it couldn't capture
+15) +capturedemo in your command line makes engine quit after capture
+16) "bind <key> capturevideo toggle" 
+
+Several touchups and bug-fixes (plenty).  See quakedef.h for list. Many are from
+either the RemakeQuake engine or Quakespasm or found by MH, szo or myself and
+noted in the FitzQuake 0.85 release thread or at the Inside3D tutorial section.
+
+-- Baker
+
+================================================================================
+
+Revision 2:  July 3, 2012
+
+Necros wanted -sndspeed command line param.  Valid values: 44100, 22050, 11025
+
+--------------------------------------------------------------------------------
+
+Revision 1:  July 2, 2012
+
+Fixed light color.  It was not getting reset consistently resulting in full
+light on models.
+
+--------------------------------------------------------------------------------
+
+Fitzquake Mark V, June 29, 2012
+
+
+This is a modification of FitzQuake 0.85 by John Fitzgibbons with bug-fixes,
+some developer oriented tools, some user oriented fixes and features and a few
+content creation extras (alpha texture support, rotation, scrolling textures,
+sphere mapped textures, custom liquid blend colors, r_waterripple).  Includes
+Quakespasm "wrong content protection", MH dynamic light speed up.
+
+Source and distribution are GPL version 3 and included with this zip.
+
+Quick list of things to try:
+
+tool_texturepointer 1
+tool_inspector 1 (do impulse 9 and change your weapon)
+r_texprefix_envmap "window" and load the start map; look at window.
+r_texprefix_scrollx "c" and load the start map.
+
+scrollx_ textures can be used for billboards, surfaces that appear to be
+continually moving, etc.  envmap_ textures work well for metallic trim,
+Alpha textures default to "{" like the RMQ Engine but the prefix can be
+changed via r_texprefix_fence.
+
+More things to try:
+
+type copy in the console.  Paste your text in notepad.
+type copyscreen in console.  Paste screenshot in graphics editor.
+type copy ents in console.  Paste text into notepad.
+type folder in the console.  Quake folder opens.
+
+Type fov 120 or fov 130 and look at your weapon.  Looks normal.
+
+type r_waterripple 3 in the console.  Look at water.  Then ...
+type gl_subdivide_size 16 in the console.  Look at water again with
+r_waterripple on.  (Feature works best on water vised maps.)
+
+bind "capturevideo toggle" to a key.  Record some video.  First time
+starts it, second time stops it.  Type "folder".
+
+Everything went through some exhaustive "quality assurance" making sure
+all features function right even with FitzQuake niceties like r_showtris.
+
+Although the above extras are nice, the emphasis of this mini-project
+was implementing a list of bug-fixes that have surfaced in the knowledge
+pool in recent days, documenting them heavily in code and applying them
+to FitzQuake.
+
+
+-- Baker
+
+Project files:
+----------------
+MSVC6, Codeblocks, Microsoft Visual Studio C++ 2008 Express.  Your choice.
+CodeBlocks is free (CodeBlocks + MinGW download).  So is 2008 C++ Express.
+
+Easy to compile.
+
+
+Code Features:
+----------------
+Every new feature is an #ifdef ... #endif block.  In fact changing a single 1 to
+a zero builds into FitzQuake 0.85.  Ripping features or unravelling how
+they are implemented is a breeze.  See quakedef.h.  Most features can be disabled
+by commenting out a single line, I say "most" because a few features depend on
+another feature being enabled.  There are few of those.
+
+
+Engine Features:
+----------------
+
+See home page or quakedef.h but this includes a considerable quantity of bug
+fixes.  And ...
+
+1)  External .mdl texture support
+2)  Support for alpha mask textures (fence textures). Palette color 255.
+3)  Single pass video startup (read's config file early)
+4)  Texture pointer (in console: tool_texturepointer 1 and point at surfaces)
+5)  Entity inspector (console: tool_inspector 1; change weapon different info)
+6)  Video capture (bind k "capturevideo toggle" press k to start/stop capture)
+
+(Get the xvid codec.  See home page.)
+
+7)  Record demos at any time.  Record/play demos across maps.  Pause key pauses.
+8)  "copy", "copy ents", "copyscreen" ... copy stuff to clipboard.
+9)  "folder" command opens relevant folder in explorer.
+10) External .ent support and Quakespasm "wrong content protection".
+11) Contrast ability using contrast cvar in console (0.5 to 1.5)
+12) Rotation support.  And smooth rotation sv_protocol 668.
+13) freezeall command.  Freezes everything except players.
+14) ping in scoreboard, NAT fix, support for ip:port.  Other network fixes.
+15) Never needs max_edicts set.  Never needs -mem set. (Yet uses only 64MB).
+16) System clock fix.  Fixes a dual-core/quad-core timing in oldy Quake.
+17) [Stencil] shadows on submodels (platforms, etc); flicker fix (polyoffset).
+18) MH's dynamic light speed up.  NVIDIA and Intels benefit huge, ATI barely.
+19) chase_mode command.  Use in conjunction with chase_active 1.
+20) Better weapon positioning and FOV (field of view) never changes appearance.
+21) Liquid customization and water ripple support.
+22) Scrolling texture support, sphere-mapped texture support.
+23) Size console with CTRL + UP and CTRL + DOWN
+24) Best weapon command.  Loc support.  Talk macros support.
+25) Support for 5 mouse buttons. Windows key or Sticky keys won't annoy you.
+26) sv_cheats support.  Set to 0 so no renegade coop friend starts ruining the
+	map with noclipping/godmoding and shooting you with rockets.  Wish that
+	could stop impulse 9 or impulse -1.  But it can't, that's the progs.
+27) r_lockfrustum, r_lockpvs, etc.
+	
+Up next:  FitzQuake Mark VI .... 
+
+
+Baker's Acknowlegements
+--------------------------------------------------------------------------------
+The below plus MH, Spike, R00k, JP Grossman, szo and the Quakespasm team,
+LordHavoc, frag.machine, goldenboy, Reckless, MDave, Jozsef Szalontai, Avirox, 
+Phoenix QER, VVD, QIP Quake, FrikaC and listening to Necros and Spirit discuss 
+engine gripes/limitations and things Bengt Jardrup helped me (or warned me about)
+with when I first started engine coding and the constant bedrock of support by
+my friends at QuakeOne.com (Mindzfield, Phenom, Solecord, Peg/Polarite, others).
+... and obviously John Fitzgibbons ;-)
+
+
+
+John Fitzgibbon's Acknowlegements
+--------------------------------------------------------------------------------
+
+id Software, LordHavoc, Bengt Jardrup, Baker, Aardappel, SmallPileOfGibs, FrikaC,
+Vondur, JPL, Negke, preach, Topaz, Tomaz, Tonik, Radix, EvilTypeGuy, NightBringer, 
+MH, Tyrann, Spirit, Fett, Maddes, Craig Wills, Heffo, Riot, Gleeb, Speedy, 
+people in #flipcode, & others for their feedback, tutorials, code, testing, 
+and assistance.
+
+
+
+Copyright / Permissions
+--------------------------------------------------------------------------------
+
+Copyright (C) 1996-2001 Id Software, Inc.
+Copyright (C) 2002-2012 John Fitzgibbons and others
+
+This program is free software; you can redistribute it and/or modify it under 
+the terms of the GNU General Public License as published by the Free Software 
+Foundation; either version 3 of the License, or (at your option) any later 
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.
+
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with 
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple 
+Place - Suite 330, Boston, MA  02111-1307, USA.
